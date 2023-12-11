@@ -1,0 +1,14 @@
+/Users/gaspar/Documents/Isitech/Projets/dotNet/ConsoleProject/bin/Debug/net8.0/ConsoleProject
+/Users/gaspar/Documents/Isitech/Projets/dotNet/ConsoleProject/bin/Debug/net8.0/ConsoleProject.deps.json
+/Users/gaspar/Documents/Isitech/Projets/dotNet/ConsoleProject/bin/Debug/net8.0/ConsoleProject.runtimeconfig.json
+/Users/gaspar/Documents/Isitech/Projets/dotNet/ConsoleProject/bin/Debug/net8.0/ConsoleProject.dll
+/Users/gaspar/Documents/Isitech/Projets/dotNet/ConsoleProject/bin/Debug/net8.0/ConsoleProject.pdb
+/Users/gaspar/Documents/Isitech/Projets/dotNet/ConsoleProject/obj/Debug/net8.0/ConsoleProject.GeneratedMSBuildEditorConfig.editorconfig
+/Users/gaspar/Documents/Isitech/Projets/dotNet/ConsoleProject/obj/Debug/net8.0/ConsoleProject.AssemblyInfoInputs.cache
+/Users/gaspar/Documents/Isitech/Projets/dotNet/ConsoleProject/obj/Debug/net8.0/ConsoleProject.AssemblyInfo.cs
+/Users/gaspar/Documents/Isitech/Projets/dotNet/ConsoleProject/obj/Debug/net8.0/ConsoleProject.csproj.CoreCompileInputs.cache
+/Users/gaspar/Documents/Isitech/Projets/dotNet/ConsoleProject/obj/Debug/net8.0/ConsoleProject.dll
+/Users/gaspar/Documents/Isitech/Projets/dotNet/ConsoleProject/obj/Debug/net8.0/refint/ConsoleProject.dll
+/Users/gaspar/Documents/Isitech/Projets/dotNet/ConsoleProject/obj/Debug/net8.0/ConsoleProject.pdb
+/Users/gaspar/Documents/Isitech/Projets/dotNet/ConsoleProject/obj/Debug/net8.0/ConsoleProject.genruntimeconfig.cache
+/Users/gaspar/Documents/Isitech/Projets/dotNet/ConsoleProject/obj/Debug/net8.0/ref/ConsoleProject.dll
