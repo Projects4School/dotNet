@@ -1,4 +1,7 @@
+using AutoMapper;
 using BookStoreAPI.Entities;
+using BookStoreAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,36 +12,52 @@ namespace BookStoreAPI.Controllers;
 [Route("api/[controller]")]
 public class BookController : ControllerBase
 {
-
     private readonly ApplicationDbContext _dbContext;
+    private readonly IMapper _mapper;
 
-    public BookController(ApplicationDbContext dbContext)
+    public BookController(ApplicationDbContext dbContext, IMapper mapper)
     {
         _dbContext = dbContext;
+        _mapper = mapper;
     }
 
+    //[Authorize]
     [HttpGet]
-    public async Task<ActionResult<List<Book>>> GetBooks()
+    [ProducesResponseType(200, Type = typeof(List<Book>))]
+    [ProducesResponseType(400)]
+    public async Task<ActionResult<List<BookDto>>> GetBooks()
     {
-        return await _dbContext.Books.ToListAsync();
+        var books = await _dbContext.Books.Include(a => a.Author).ToListAsync();
+        var booksDto = new List<BookDto>();
+
+        foreach (var book in books)
+        {
+            booksDto.Add(_mapper.Map<BookDto>(book));
+        }
+
+        return Ok(booksDto);
     }
 
+    //[Authorize]
     [HttpGet("{id}")]
     [ProducesResponseType(200, Type = typeof(Book))]
     [ProducesResponseType(404)]
     public async Task<ActionResult<Book>> GetBook(int id)
     {
-        Book? existingBook = await _dbContext.Books.FirstOrDefaultAsync(b => b.Id == id);
+        Book? existingBook = await _dbContext.Books
+        .Include(a => a.Author)
+        .FirstOrDefaultAsync(b => b.Id == id);
         if (existingBook is null)
         {
             return NotFound();
         }
         else
         {
-            return Ok(existingBook);
+            return Ok(_mapper.Map<BookDto>(existingBook));
         }
     }
 
+    //[Authorize]
     [HttpPost]
     [ProducesResponseType(201, Type = typeof(Book))]
     [ProducesResponseType(400)]
@@ -68,36 +87,33 @@ public class BookController : ControllerBase
         }
     }
 
+    //[Authorize]
     [HttpPut("{id}")]
     [ProducesResponseType(200, Type = typeof(Book))]
     [ProducesResponseType(400)]
     [ProducesResponseType(404)]
     public async Task<ActionResult<Book>> PutBook(int id, [FromBody] Book book)
     {
-        // we check if the parameter is null
         if (book is null || id != book.Id)
         {
             return BadRequest();
         }
-        // we check if the book already exists
-        Book? existingBook = await _dbContext.Books.FirstOrDefaultAsync(b => b.Id == id);
-        if (existingBook is null)
+        var bookToUpdate = await _dbContext.Books.FirstOrDefaultAsync(b => b.Id == id);
+        if (bookToUpdate is null)
         {
             return NotFound();
         }
         else
         {
-            existingBook = new Book
-            {
-                Title = book.Title,
-                Author = book.Author,
-                Abstract = book.Abstract
-            };
+            bookToUpdate.Title = book.Title;
+            bookToUpdate.Author = book.Author;
+            bookToUpdate.Abstract = book.Abstract;
 
             try
             {
+                _dbContext.Books.Entry(bookToUpdate).State = EntityState.Modified;
                 await _dbContext.SaveChangesAsync();
-                return Ok(existingBook);
+                return Ok(bookToUpdate);
             }
             catch (DbUpdateException exception)
             {
@@ -106,6 +122,17 @@ public class BookController : ControllerBase
         }
     }
 
+    [HttpPost("validationTest")]
+    public ActionResult ValidationTest([FromBody] BookDto book)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        return Ok();
+    }
+
+    [Authorize]
     [HttpDelete("{id}")]
     [ProducesResponseType(200, Type = typeof(Book))]
     [ProducesResponseType(404)]
