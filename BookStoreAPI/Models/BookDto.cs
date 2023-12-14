@@ -7,5 +7,5 @@ public class BookDto
 {
     public string Title { get; init; } = default!;
 
-    public Author? Author { get; set; }
+    public AuthorDto? Author { get; set; }
 }

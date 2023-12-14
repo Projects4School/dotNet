@@ -23,7 +23,7 @@ public class BookController : ControllerBase
 
     //[Authorize]
     [HttpGet]
-    [ProducesResponseType(200, Type = typeof(List<Book>))]
+    [ProducesResponseType(200, Type = typeof(List<BookDto>))]
     [ProducesResponseType(400)]
     public async Task<ActionResult<List<BookDto>>> GetBooks()
     {
@@ -40,9 +40,9 @@ public class BookController : ControllerBase
 
     //[Authorize]
     [HttpGet("{id}")]
-    [ProducesResponseType(200, Type = typeof(Book))]
+    [ProducesResponseType(200, Type = typeof(BookDto))]
     [ProducesResponseType(404)]
-    public async Task<ActionResult<Book>> GetBook(int id)
+    public async Task<ActionResult<BookDto>> GetBook(int id)
     {
         Book? existingBook = await _dbContext.Books
         .Include(a => a.Author)
