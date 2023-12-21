@@ -63,6 +63,10 @@ public class AuthorController : ControllerBase
         {
             return BadRequest();
         }
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         Author? addedAuthor = await _dbContext.Authors.FirstOrDefaultAsync(b => b.FirstName == author.FirstName && b.LastName == author.LastName);
         if (addedAuthor is not null)
         {
@@ -94,6 +98,10 @@ public class AuthorController : ControllerBase
         {
             return BadRequest();
         }
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         var authorToUpdate = await _dbContext.Authors.FirstOrDefaultAsync(b => b.Id == id);
         if (authorToUpdate is null)
         {
@@ -115,16 +123,6 @@ public class AuthorController : ControllerBase
                 return BadRequest(exception.InnerException?.Message);
             }
         }
-    }
-
-    [HttpPost("validationTest")]
-    public ActionResult ValidationTest([FromBody] AuthorDto author)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        return Ok();
     }
 
     //[Authorize]

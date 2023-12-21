@@ -67,6 +67,10 @@ public class BookController : ControllerBase
         {
             return BadRequest();
         }
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         Book? addedBook = await _dbContext.Books.FirstOrDefaultAsync(b => b.Title == book.Title);
         if (addedBook is not null)
         {
@@ -98,6 +102,10 @@ public class BookController : ControllerBase
         {
             return BadRequest();
         }
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         var bookToUpdate = await _dbContext.Books.FirstOrDefaultAsync(b => b.Id == id);
         if (bookToUpdate is null)
         {
@@ -122,17 +130,7 @@ public class BookController : ControllerBase
         }
     }
 
-    [HttpPost("validationTest")]
-    public ActionResult ValidationTest([FromBody] BookDto book)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        return Ok();
-    }
-
-    [Authorize]
+    //[Authorize]
     [HttpDelete("{id}")]
     [ProducesResponseType(200, Type = typeof(Book))]
     [ProducesResponseType(404)]

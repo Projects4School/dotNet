@@ -20,4 +20,6 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<Book> Books { get; set; } = default!;
     public DbSet<Author> Authors { get; set; } = default!;
+    public DbSet<Genre> Genres { get; set; } = default!;
+    public DbSet<Publisher> Publishers { get; set; } = default!;
 }
